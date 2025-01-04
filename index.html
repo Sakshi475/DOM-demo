@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: url('https://images.pexels.com/photos/2310713/pexels-photo-2310713.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500') no-repeat center center/cover;
+            color: white;
+        }
+
+        .image-container img {
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 50px 50px;
+            font-size: 25px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .single-click {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .single-click:hover {
+            background-color: #45a049;
+        }
+
+        .double-click {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        .double-click:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img id="mainImage" src="https://image.spreadshirtmedia.com/image-server/v1/products/T1459A842PA3861PT28D1037154391W10000H8930/views/1,width=800,height=800,appearanceId=842,backgroundColor=F2F2F2/hi-sticker.jpg" alt="Default Image">
+    </div>
+    <div class="button-container">
+        <button class="single-click">Single Click</button>
+        <button class="double-click">Double Click</button>
+    </div>
+
+    <script>
+        // DOM methods to change the image
+        const mainImage = document.getElementById('mainImage');
+        const singleClickButton = document.querySelector('.single-click');
+        const doubleClickButton = document.querySelector('.double-click');
+
+        // Images to use
+        const images = {
+            singleClick: "https://i.pinimg.com/236x/f5/bd/08/f5bd0867e887b66d2bb05350e092bd38.jpg",
+            doubleClick: "https://im.indiatimes.in/content/2023/Aug/Virat-Kohli-And-Shinchan_64e5961745fd1.png?w=1200&h=900&cc=1&webp=1&q=75",
+            hover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3tBzRp88ngHT5jU85bfbLHBiaA-sMzXSs-Q&s",
+            default: "https://image.spreadshirtmedia.com/image-server/v1/products/T1459A842PA3861PT28D1037154391W10000H8930/views/1,width=800,height=800,appearanceId=842,backgroundColor=F2F2F2/hi-sticker.jpg"
+        };
+
+        let timeout;
+
+        function resetToDefaultImage() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                mainImage.src = images.default;
+            }, 5000);
+        }
+
+        // Event listeners for buttons and image
+        singleClickButton.addEventListener('click', () => {
+            mainImage.src = images.singleClick;
+            resetToDefaultImage();
+        });
+
+        doubleClickButton.addEventListener('dblclick', () => {
+            mainImage.src = images.doubleClick;
+            resetToDefaultImage();
+        });
+
+        mainImage.addEventListener('mouseover', () => {
+            mainImage.src = images.hover;
+            clearTimeout(timeout);
+        });
+
+        mainImage.addEventListener('mouseout', resetToDefaultImage);
+
+        resetToDefaultImage();
+    </script>
+</body>
+</html>
